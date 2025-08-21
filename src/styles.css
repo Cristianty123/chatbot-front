@@ -27,7 +27,7 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
-  cursor: url("./assets/images/cursor.jpg") 30 32, auto;
+  cursor: url("./assets/images/cursor.png") 30 32, auto;
 }
 
 /* ===== SCROLL PERSONALIZADO ===== */
