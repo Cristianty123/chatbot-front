@@ -1,0 +1,236 @@
+.home-page,
+.home-page * {
+  box-sizing: border-box;
+}
+@font-face {
+  font-family: "AlgerianCustom";
+  src: url("../../../assets/fonts/ALGER.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.tyrrel,
+.que-producto-le-deseas-buscar-un-descuento,
+.search-for-a-product,
+.buscar,
+.log-in,
+.sign-up {
+  font-family: "AlgerianCustom", sans-serif;
+}
+
+body {
+  cursor: url("../../../assets/fonts/images/cigarrillo2.png") 30 32, auto;
+}
+.home-page {
+  background: #191919;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+}
+.rectangle-58 {
+  background: #575252 url("../../../assets/fonts/images/noise.png") repeat;
+  border-radius: 20px;
+  width: 988px;
+  height: 816px;
+  position: absolute;
+  left: 466px;
+  top: 132px;
+  background-size: 200px 200px; /* controla el tamaño de las manchas */
+  image-rendering: pixelated;   /* da un look más duro si quieres */
+  
+}
+
+.rectangle-59 {
+  background: #d9d9d9 url("../../../assets/fonts/images/noise3.png") repeat;
+  border-radius: 40px;
+  width: 899px;
+  height: 104px;
+  position: absolute;
+  left: 510px;
+  top: 506px;
+  background-size: 100px 100px; /* controla el tamaño de las manchas */
+}
+.que-producto-le-deseas-buscar-un-descuento {
+  color: #ffffff;
+  text-align: center;
+  font-family: "AlgerianCustom", sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  position: absolute;
+  left: 658px;
+  top: 348px;
+  width: 604px;
+  height: 169px;
+}
+.search-for-a-product {
+  color: #ffffff;
+  text-align: center;
+  font-family: "AlgerianCustom", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: absolute;
+  left: 494px;
+  top: 538px;
+  width: 411px;
+  height: 41px;
+}
+.tyrrel {
+  color: #ffffff;
+  text-align: center;
+  font-family: "AlgerianCustom", sans-serif;
+  font-size: 64px;
+  font-weight: 400;
+  position: absolute;
+  left: 658px;
+  top: 204px;
+  width: 604px;
+  height: 169px;
+}
+.frame-4 {
+  background: #ffffff url("../../../assets/fonts/images/noise2.png") repeat;
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 877px;
+  top: 631px;
+  background-size: 25px 25px; /* controla el tamaño de las manchas */
+}
+.buscar {
+  color: #000000;
+  text-align: center;
+  font-family: "AlgerianCustom", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: relative;
+  width: 133px;
+}
+.frame-5 {
+  background: #575252 url("../../../assets/fonts/images/noise.png") repeat;
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 1375px;
+  top: 25px;
+  background-size: 50px 50px; /* controla el tamaño de las manchas */
+  image-rendering: pixelated;   /* da un look más duro si quieres */
+}
+.log-in {
+  color: #ffffff;
+  text-align: center;
+  font-family: "AlgerianCustom", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: relative;
+}
+.frame-6 {
+  background: #ffffff url("../../../assets/fonts/images/noise2.png") repeat;
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 1513px;
+  top: 25px;
+  background-size: 50px 50px; /* controla el tamaño de las manchas */
+}
+.sign-up {
+  color: #000000;
+  text-align: center;
+  font-family: "AlgerianCustom", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  position: relative;
+}
+.image-60 {
+  width: 130px;
+  height: 257px;
+  position: absolute;
+  left: 1310px;
+  top: 677px;
+  object-fit: cover;
+  aspect-ratio: 130/257;
+  background: url("../../../assets/fonts/images/image-600.png");
+}
+.image-61 {
+  width: 130px;
+  height: 257px;
+  position: absolute;
+  left: 1310px;
+  top: 132px;
+  object-fit: cover;
+  aspect-ratio: 130/257;
+  background: url("../../../assets/fonts/images/image-610.png");
+}
+.image-62 {
+  width: 130px;
+  height: 257px;
+  position: absolute;
+  left: 466px;
+  top: 132px;
+  object-fit: cover;
+  aspect-ratio: 130/257;
+  background: url("../../../assets/fonts/images/image-620.png");
+}
+.image-63 {
+  width: 130px;
+  height: 257px;
+  position: absolute;
+  left: 466px;
+  top: 691px;
+  object-fit: cover;
+  aspect-ratio: 130/257;
+  background: url("../../../assets/fonts/images/image-630.png");
+}
+.image-65 {
+  width: 363px;
+  height: 545px;
+  position: absolute;
+  left: 2px;
+  top: -12px;
+  object-fit: cover;
+  aspect-ratio: 363/545;
+  background: url("../../../assets/fonts/images/image-650.png");
+}
+.image-66 {
+  width: 394px;
+  height: 591px;
+  position: absolute;
+  left: -13px;
+  top: 489px;
+  object-fit: cover;
+  aspect-ratio: 394/591;
+  background: url("../../../assets/fonts/images/image-660.png");
+}
+.image-67 {
+  width: 363px;
+  height: 545px;
+  position: absolute;
+  left: 1541px;
+  top: -8px;
+  object-fit: cover;
+  aspect-ratio: 363/545;
+  background: url("../../../assets/fonts/images/image-670.png");
+}
+.image-68 {
+  width: 394px;
+  height: 591px;
+  position: absolute;
+  left: 1526px;
+  top: 493px;
+  object-fit: cover;
+  aspect-ratio: 394/591;
+  background: url("../../../assets/fonts/images/image-680.png");
+}
