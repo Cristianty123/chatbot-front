@@ -1,1 +1,101 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color: #191919;
+  --secondary-color: #575252;
+  --accent-color: #f08f66;
+  --text-color: #ffffff;
+  --input-bg: #d9d9d9;
+  --input-text: #1e1e1e;
+  --button-bg: #ffffff;
+  --button-text: #000000;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--primary-color);
+  /* Personalizar el scroll para todos los navegadores */
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary-color) var(--primary-color);
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+body {
+  font-family: "Algerian", sans-serif;
+  background: var(--primary-color) url('./assets/images/background-image.jpg') center center / cover no-repeat;
+  color: var(--text-color);
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+  cursor: url("./assets/images/cursor.jpg") 30 32, auto;
+}
+
+/* ===== SCROLL PERSONALIZADO ===== */
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 10px; /* Un poco más delgado para mejor estética */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-color);
+  border-radius: 0; /* Sin bordes redondeados para match perfecto */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 4px; /* Bordes suaves */
+  border: 2px solid var(--primary-color);
+  transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6d6767; /* Un tono un poco más claro del secondary */
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--primary-color); /* Esquina inferior derecha */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary-color) var(--primary-color);
+}
+
+/* IE/Edge */
+body {
+  -ms-overflow-style: none;
+}
+
+/* ===== ELIMINAR BORDES/BLEEDING BLANCO ===== */
+* {
+  box-sizing: border-box;
+}
+
+/* Eliminar cualquier espacio blanco residual */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  background: var(--primary-color);
+  z-index: 9999;
+}
+
+body::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+body::after {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+/* Asegurar que no haya overflow blanco */
+div, section, main, header, footer {
+  max-width: 100vw;
+}

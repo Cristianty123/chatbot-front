@@ -1,236 +1,245 @@
-.home-page,
-.home-page * {
+* {
   box-sizing: border-box;
-}
-@font-face {
-  font-family: "AlgerianCustom";
-  src: url("../../../assets/fonts/ALGER.TTF") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+  margin: 0;
+  padding: 0;
 }
 
-.tyrrel,
-.que-producto-le-deseas-buscar-un-descuento,
-.search-for-a-product,
-.buscar,
-.log-in,
-.sign-up {
-  font-family: "AlgerianCustom", sans-serif;
+.container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
 
-body {
-  cursor: url("../../../assets/fonts/images/cigarrillo2.png") 30 32, auto;
+/* HEADER */
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px;
+  z-index: 20;
+  position: relative;
 }
-.home-page {
-  background: #191919;
-  height: 1080px;
+
+.nav-btn {
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-family: "Algerian", sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
   position: relative;
   overflow: hidden;
 }
-.rectangle-58 {
-  background: #575252 url("../../../assets/fonts/images/noise.png") repeat;
-  border-radius: 20px;
-  width: 988px;
-  height: 816px;
-  position: absolute;
-  left: 466px;
-  top: 132px;
-  background-size: 200px 200px; /* controla el tamaño de las manchas */
-  image-rendering: pixelated;   /* da un look más duro si quieres */
-  
+
+.login-btn {
+  background: var(--secondary-color) url('../../../assets/images/noise.png') repeat;
+  color: var(--text-color);
+  background-size: 50px 50px;
 }
 
-.rectangle-59 {
-  background: #d9d9d9 url("../../../assets/fonts/images/noise3.png") repeat;
+.signup-btn {
+  background: var(--button-bg) url('../../../assets/images/noise2.png') repeat;
+  color: var(--button-text);
+  background-size: 50px 50px;
+}
+
+/* EFECTO DE ANIMACIÓN AGREGADO */
+.nav-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.nav-btn:hover::before {
+  left: 100%;
+}
+
+.nav-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+}
+
+/* MAIN CONTENT */
+.main-content {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  z-index: 5;
+  padding: 40px 20px;
+}
+
+.main-card {
+  position: relative;
+  background: var(--secondary-color) url('../../../assets/images/noise.png') repeat;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 900px;
+  padding: 40px 30px;
+  margin: 0 auto;
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(0, 0, 0, 0.4),
+    0 0 60px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(240, 143, 102, 0.3);
+  background-size: 200px 200px;
+  image-rendering: pixelated;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.corner-image {
+  position: absolute;
+  width: 8%;
+  max-width: 100px;
+  height: auto;
+  aspect-ratio: 130/257;
+  object-fit: cover;
+  z-index: 2;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.7));
+}
+
+.top-left { top: 0; left: 0; }
+.top-right { top: 0; right: 0; }
+.bottom-left { bottom: 0; left: 0; }
+.bottom-right { bottom: 0; right: 0; }
+
+.logo {
+  font-family: "Algerian", sans-serif;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.tagline {
+  font-family: "Algerian", sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  text-align: center;
+  margin-bottom: 20px;
+  max-width: 100%;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 0 15px;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+/* SEARCH BAR */
+.search-container {
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto 20px;
+}
+
+.search-bar {
+  width: 100%;
+  height: 90px;
   border-radius: 40px;
-  width: 899px;
-  height: 104px;
-  position: absolute;
-  left: 510px;
-  top: 506px;
-  background-size: 100px 100px; /* controla el tamaño de las manchas */
+  border: none;
+  outline: none;
+  padding: 0 30px;
+  font-family: "Algerian", sans-serif;
+  font-size: 1.2rem;
+  background: var(--input-bg) url('../../../assets/images/noise3.png') repeat;
+  background-size: 100px 100px;
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    0 0 15px rgba(0, 0, 0, 0.3);
+  color: var(--input-text);
+  text-transform: uppercase;
 }
-.que-producto-le-deseas-buscar-un-descuento {
-  color: #ffffff;
-  text-align: center;
-  font-family: "AlgerianCustom", sans-serif;
-  font-size: 36px;
-  font-weight: 400;
-  position: absolute;
-  left: 658px;
-  top: 348px;
-  width: 604px;
-  height: 169px;
-}
-.search-for-a-product {
-  color: #ffffff;
-  text-align: center;
-  font-family: "AlgerianCustom", sans-serif;
+
+/* SEARCH BUTTON - También con efecto de animación */
+.search-btn {
+  padding: 15px 50px;
+  background: var(--button-bg) url('../../../assets/images/noise2.png') repeat;
+  border-radius: 15px;
+  font-family: "Algerian", sans-serif;
   font-size: 24px;
-  font-weight: 400;
-  position: absolute;
-  left: 494px;
-  top: 538px;
-  width: 411px;
-  height: 41px;
-}
-.tyrrel {
-  color: #ffffff;
-  text-align: center;
-  font-family: "AlgerianCustom", sans-serif;
-  font-size: 64px;
-  font-weight: 400;
-  position: absolute;
-  left: 658px;
-  top: 204px;
-  width: 604px;
-  height: 169px;
-}
-.frame-4 {
-  background: #ffffff url("../../../assets/fonts/images/noise2.png") repeat;
-  border-radius: 20px;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  left: 877px;
-  top: 631px;
-  background-size: 25px 25px; /* controla el tamaño de las manchas */
-}
-.buscar {
-  color: #000000;
-  text-align: center;
-  font-family: "AlgerianCustom", sans-serif;
-  font-size: 32px;
-  font-weight: 400;
+  color: var(--button-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 15px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(0, 0, 0, 0.1);
+  background-size: 25px 25px;
+  margin: 0 auto;
+  display: block;
+  text-transform: uppercase;
   position: relative;
-  width: 133px;
+  overflow: hidden;
 }
-.frame-5 {
-  background: #575252 url("../../../assets/fonts/images/noise.png") repeat;
-  border-radius: 20px;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
+
+/* EFECTO DE ANIMACIÓN PARA EL BOTÓN DE BÚSQUEDA TAMBIÉN */
+.search-btn::before {
+  content: '';
   position: absolute;
-  left: 1375px;
-  top: 25px;
-  background-size: 50px 50px; /* controla el tamaño de las manchas */
-  image-rendering: pixelated;   /* da un look más duro si quieres */
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: 0.5s;
 }
-.log-in {
-  color: #ffffff;
-  text-align: center;
-  font-family: "AlgerianCustom", sans-serif;
-  font-size: 32px;
-  font-weight: 400;
-  position: relative;
+
+.search-btn:hover::before {
+  left: 100%;
 }
-.frame-6 {
-  background: #ffffff url("../../../assets/fonts/images/noise2.png") repeat;
-  border-radius: 20px;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
+
+.search-btn:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(0, 0, 0, 0.2);
+}
+
+/* BACKGROUND DECORATIONS */
+.bg-decoration {
   position: absolute;
-  left: 1513px;
-  top: 25px;
-  background-size: 50px 50px; /* controla el tamaño de las manchas */
-}
-.sign-up {
-  color: #000000;
-  text-align: center;
-  font-family: "AlgerianCustom", sans-serif;
-  font-size: 32px;
-  font-weight: 400;
-  position: relative;
-}
-.image-60 {
-  width: 130px;
-  height: 257px;
-  position: absolute;
-  left: 1310px;
-  top: 677px;
+  z-index: 1;
   object-fit: cover;
-  aspect-ratio: 130/257;
-  background: url("../../../assets/fonts/images/image-600.png");
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.7));
+  width: 20%;
+  max-width: 200px;
+  height: auto;
 }
-.image-61 {
-  width: 130px;
-  height: 257px;
-  position: absolute;
-  left: 1310px;
-  top: 132px;
-  object-fit: cover;
-  aspect-ratio: 130/257;
-  background: url("../../../assets/fonts/images/image-610.png");
+
+.bg-left-top { top: 80px; left: 0; }
+.bg-left-bottom { bottom: 0; left: 0; }
+.bg-right-top { top: 80px; right: 0; }
+.bg-right-bottom { bottom: 0; right: 0; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header { justify-content: center; }
+  .bg-decoration, .corner-image { display: none; }
+  .search-bar { height: 70px; }
+  .main-card { padding: 25px 15px; }
 }
-.image-62 {
-  width: 130px;
-  height: 257px;
-  position: absolute;
-  left: 466px;
-  top: 132px;
-  object-fit: cover;
-  aspect-ratio: 130/257;
-  background: url("../../../assets/fonts/images/image-620.png");
-}
-.image-63 {
-  width: 130px;
-  height: 257px;
-  position: absolute;
-  left: 466px;
-  top: 691px;
-  object-fit: cover;
-  aspect-ratio: 130/257;
-  background: url("../../../assets/fonts/images/image-630.png");
-}
-.image-65 {
-  width: 363px;
-  height: 545px;
-  position: absolute;
-  left: 2px;
-  top: -12px;
-  object-fit: cover;
-  aspect-ratio: 363/545;
-  background: url("../../../assets/fonts/images/image-650.png");
-}
-.image-66 {
-  width: 394px;
-  height: 591px;
-  position: absolute;
-  left: -13px;
-  top: 489px;
-  object-fit: cover;
-  aspect-ratio: 394/591;
-  background: url("../../../assets/fonts/images/image-660.png");
-}
-.image-67 {
-  width: 363px;
-  height: 545px;
-  position: absolute;
-  left: 1541px;
-  top: -8px;
-  object-fit: cover;
-  aspect-ratio: 363/545;
-  background: url("../../../assets/fonts/images/image-670.png");
-}
-.image-68 {
-  width: 394px;
-  height: 591px;
-  position: absolute;
-  left: 1526px;
-  top: 493px;
-  object-fit: cover;
-  aspect-ratio: 394/591;
-  background: url("../../../assets/fonts/images/image-680.png");
+
+@media (max-width: 480px) {
+  .nav-btn { font-size: 16px; padding: 6px 15px; }
+  .search-btn { font-size: 20px; padding: 12px 30px; }
+  .tagline { font-size: 1rem; margin-bottom: 15px; }
 }
