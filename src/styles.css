@@ -12,6 +12,14 @@ html, body {
   -ms-overflow-style: none; /* IE/Edge */
 }
 
+@font-face {
+  font-family: "Algerian";
+  src: url("../src/assets/fonts/ALGER.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 body {
   font-family: "Algerian", sans-serif;
   background: var(--primary-color) url('./assets/images/background-image.jpg') center center / cover no-repeat;

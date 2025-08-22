@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { trigger, transition, style, query, animate } from '@angular/animations';
 
@@ -49,6 +49,36 @@ import { trigger, transition, style, query, animate } from '@angular/animations'
 export class App {
   protected readonly title = 'chatbot-front';
 
+  private audio: HTMLAudioElement;
+
+  constructor() {
+    // Inicializamos el audio una sola vez
+    this.audio = new Audio('/teclao.mp3');
+  }
+  
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+
+    if (event.key === ' ') {
+     // sonido especial solo para espacio
+     const audio = new Audio('/recarga.mp3');
+     audio.play().catch(() => {});
+     }else if (event.key === 'Enter') {
+      // sonido especial solo para enter
+      const audio = new Audio('/disparo.mp3');
+      audio.volume = 0.4;
+      audio.play().catch(() => {});
+    }else if (event.key === 'Backspace') {
+      // sonido especial para borrar
+      const audio = new Audio('/crowbar.mp3');
+      audio.volume = 0.2;
+      audio.play().catch(() => {});
+    }else {
+      // sonido normal para cualquier otra tecla
+      const audio = new Audio('/teclao.mp3');
+      audio.play().catch(() => {});
+    }
+  }
   prepareRoute(outlet: RouterOutlet) {
     return outlet?.activatedRouteData?.['animation'];
   }
