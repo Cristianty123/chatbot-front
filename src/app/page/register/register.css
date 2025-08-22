@@ -5,6 +5,13 @@
   margin: 0;
   padding: 0;
 }
+
+.header {
+  padding: 40px;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
 .signup-container {
   position: relative;
   width: 100%;
@@ -151,16 +158,25 @@
 .logo {
   position: absolute;
   top: 20px;
-  left: 15%;
-  transform: translateX(-50%);
+  left: 20px; /* Cambiado a esquina izquierda */
   font-family: "Algerian", sans-serif;
   font-size: clamp(1.8rem, 6vw, 3.5rem);
   z-index: 3;
-  text-align: center;
-  width: 100%;
   text-shadow:
     0 0 10px rgba(139, 0, 0, 0.8),
     0 0 20px rgba(139, 0, 0, 0.4);
+  cursor: pointer; /* Indica que es clickeable */
+  padding: 5px 15px; /* Área de click reducida al texto */
+  transition: all 0.3s ease;
+  display: inline-block; /* Para que el padding no ocupe todo el ancho */
+}
+
+.logo:hover {
+  color: var(--accent-color); /* Cambio de color al pasar el mouse */
+  text-shadow:
+    0 0 15px rgba(240, 143, 102, 0.9),
+    0 0 25px rgba(240, 143, 102, 0.5);
+  transform: scale(1.05); /* Efecto de agrandamiento */
 }
 
 .corner-image {
