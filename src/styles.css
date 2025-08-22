@@ -91,3 +91,190 @@ body::after {
 div, section, main, header, footer {
   max-width: 100vw;
 }
+
+/* Estilos globales para las transiciones */
+.page-transition {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Estilos para el contenedor principal */
+.app-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+router-outlet ~ * {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== ANIMACIONES ELEGANTES PARA TRANSICIONES ===== */
+
+/* Efecto de fundido suave (Fade) */
+.fade-soft-in {
+  animation: fadeSoftIn 0.6s ease-out forwards;
+}
+
+.fade-soft-out {
+  animation: fadeSoftOut 0.6s ease-out forwards;
+}
+
+@keyframes fadeSoftIn {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes fadeSoftOut {
+  from {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+/* Efecto de escala suave */
+.scale-soft-in {
+  animation: scaleSoftIn 0.6s ease-out forwards;
+}
+
+.scale-soft-out {
+  animation: scaleSoftOut 0.6s ease-out forwards;
+}
+
+@keyframes scaleSoftIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleSoftOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}
+
+/* Efecto de elevación (Elevate) */
+.elevate-in {
+  animation: elevateIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.elevate-out {
+  animation: elevateOut 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes elevateIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.99);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@keyframes elevateOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.99);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+/* Efecto de desvanecimiento con profundidad (con perspectiva) */
+.perspective-in {
+  animation: perspectiveIn 0.7s ease-out forwards;
+  transform-style: preserve-3d;
+}
+
+.perspective-out {
+  animation: perspectiveOut 0.7s ease-out forwards;
+  transform-style: preserve-3d;
+}
+
+@keyframes perspectiveIn {
+  from {
+    opacity: 0;
+    transform: rotateX(5deg) translateZ(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0) translateZ(0);
+  }
+}
+
+@keyframes perspectiveOut {
+  from {
+    opacity: 1;
+    transform: rotateX(0) translateZ(0);
+  }
+  to {
+    opacity: 0;
+    transform: rotateX(-5deg) translateZ(-50px);
+  }
+}
+
+/* Efecto de cortina (Curtain) */
+.curtain-in {
+  animation: curtainIn 0.8s ease-out forwards;
+  transform-origin: top;
+}
+
+.curtain-out {
+  animation: curtainOut 0.8s ease-out forwards;
+  transform-origin: top;
+}
+
+@keyframes curtainIn {
+  from {
+    opacity: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@keyframes curtainOut {
+  from {
+    opacity: 1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  to {
+    opacity: 0;
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  }
+}
