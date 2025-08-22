@@ -1,0 +1,9 @@
+:root[data-theme="login"] {
+  --primary-color: #191919;
+  --secondary-color: #810e0e;
+  --accent-color: #f08f66;
+  --text-color: #ffffff;
+  --input-bg: #ffffff;
+  --input-text: #1e1e1e;
+  --link-color: #99b5f9;
+}
