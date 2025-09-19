@@ -448,3 +448,34 @@
     max-height: 280px;
   }
 }
+.message-content {
+  font-family: "Algerian", sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.message-content a.product-link {
+  color: var(--accent-color);
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.message-content a.product-link:hover {
+  color: var(--button-bg);
+  text-decoration: none;
+}
+
+.message-content strong {
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+/* Mantener los estilos existentes para mensajes */
+.user-message .message-content a.product-link {
+  color: var(--button-text);
+}
+
+.bot-message .message-content a.product-link {
+  color: var(--accent-color);
+}
