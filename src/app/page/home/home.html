@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tyrrel - Buscador de Descuentos</title>
+  <title>Tyrrel - Chatbot de Descuentos</title>
 </head>
 <body>
 <div class="container">
@@ -15,19 +15,73 @@
   <main class="main-content">
     <!-- Tarjeta principal -->
     <div class="main-card">
+      <h1 class="logo" [class.logo-moved]="chatStarted">TYRREL</h1>
+
       <img class="corner-image top-left" src="/logo-dark.png" alt="Decoración esquina">
       <img class="corner-image top-right" src="/logo-dark.png" alt="Decoración esquina">
       <img class="corner-image bottom-left" src="/logo-dark.png" alt="Decoración esquina">
       <img class="corner-image bottom-right" src="/logo-dark.png" alt="Decoración esquina">
 
-      <h1 class="logo">TYRREL</h1>
-      <p class="tagline">¿Qué producto le deseas buscar un descuento?</p>
+      <!-- Tagline que desaparece -->
+      <p class="tagline" [class.hidden]="chatStarted">¿Qué producto le deseas buscar un descuento?</p>
 
-      <div class="search-container">
-        <input class="search-bar" type="text" placeholder="SEARCH FOR A PRODUCT">
+      <!-- Contenedor de chat -->
+      <div class="chat-container" [class.active]="chatStarted">
+        <!-- Mensajes del chat -->
+        <div class="messages-container" #messagesContainer>
+          <div *ngFor="let message of messages"
+               [class.user-message]="message.isUser"
+               [class.bot-message]="!message.isUser"
+               class="message">
+            <div class="message-content">
+              {{ message.content }}
+            </div>
+            <div class="message-time">
+              {{ message.timestamp | date:'HH:mm' }}
+            </div>
+          </div>
+
+          <!-- Indicador de carga -->
+          <div class="loading-indicator" *ngIf="isLoading">
+            <div class="typing-animation">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input de chat -->
+        <div class="chat-input-container">
+          <input
+            #chatInput
+            class="chat-input"
+            type="text"
+            placeholder="Escribe tu mensaje..."
+            [(ngModel)]="userInput"
+            (keyup.enter)="sendMessage()"
+            [disabled]="isLoading">
+          <button
+            class="send-btn"
+            (click)="sendMessage()"
+            [disabled]="isLoading || !userInput.trim()">
+            <span class="send-icon">➤</span>
+          </button>
+        </div>
       </div>
 
-      <button class="search-btn">BUSCAR</button>
+      <!-- Search container original (se transforma) -->
+      <div class="search-container" [class.hidden]="chatStarted">
+        <input
+          #searchInput
+          class="search-bar"
+          type="text"
+          placeholder="SEARCH FOR A PRODUCT"
+          (keyup.enter)="startChat()">
+      </div>
+
+      <!-- Botón de búsqueda original (desaparece) -->
+      <button class="search-btn" [class.hidden]="chatStarted" (click)="startChat()">BUSCAR</button>
     </div>
   </main>
 

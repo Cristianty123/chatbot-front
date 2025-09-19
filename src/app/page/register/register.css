@@ -168,7 +168,7 @@
   cursor: pointer; /* Indica que es clickeable */
   padding: 5px 15px; /* Área de click reducida al texto */
   transition: all 0.3s ease;
-  display: inline-block; /* Para que el padding no ocupe todo el ancho */
+  display: inline-block;
 }
 
 .logo:hover {
