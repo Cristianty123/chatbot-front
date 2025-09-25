@@ -53,7 +53,7 @@ export class App {
 
   constructor() {
     // Inicializamos el audio una sola vez
-    this.audio = new Audio('/teclao.mp3');
+    this.audio = new Audio('/teclado.mp3');
   }
   
   @HostListener('document:keydown', ['$event'])
@@ -61,21 +61,21 @@ export class App {
 
     if (event.key === ' ') {
      // sonido especial solo para espacio
-     const audio = new Audio('/recarga.mp3');
+     const audio = new Audio('/espacio.mp3');
      audio.play().catch(() => {});
      }else if (event.key === 'Enter') {
       // sonido especial solo para enter
-      const audio = new Audio('/disparo.mp3');
+      const audio = new Audio('/enter.mp3');
       audio.volume = 0.4;
       audio.play().catch(() => {});
     }else if (event.key === 'Backspace') {
       // sonido especial para borrar
-      const audio = new Audio('/crowbar.mp3');
+      const audio = new Audio('/borrar.mp3');
       audio.volume = 0.2;
       audio.play().catch(() => {});
     }else {
       // sonido normal para cualquier otra tecla
-      const audio = new Audio('/teclao.mp3');
+      const audio = new Audio('/teclado.mp3');
       audio.play().catch(() => {});
     }
   }
