@@ -78,7 +78,7 @@ export class Home implements OnInit {
     this.isLoading = true;
 
     try {
-      const response = await this.http.post<any>('http://192.168.1.54:8000/chat/nologin', {
+      const response = await this.http.post<any>('http://localhost:8080/chat/nologin', {
         message: message,
         session_id: this.sessionId
       }).toPromise();
@@ -86,11 +86,11 @@ export class Home implements OnInit {
       if (response.success) {
         this.addMessage(response.response, false);
       } else {
-        this.addMessage('❌ Lo siento, hubo un error. Por favor intenta nuevamente.', false);
+        this.addMessage(' (;´д`) Lo siento, hubo un error. Por favor intenta nuevamente.', false);
       }
     } catch (error) {
       console.error('Error al enviar mensaje:', error);
-      this.addMessage('❌ Error de conexión. Por favor intenta más tarde.', false);
+      this.addMessage(' (;´д`)Error de conexión. Por favor intenta más tarde.', false);
     } finally {
       this.isLoading = false;
     }
@@ -114,9 +114,16 @@ export class Home implements OnInit {
       }, 100);
     }
   }
-
   navigateToRegister() {
     this.router.navigate(['/register']).then(() => {
+      console.log('Navegación a registro completada');
+    }).catch((error) => {
+      console.error('Error en navegación:', error);
+    });
+  }
+
+  navigateToLogin() {
+    this.router.navigate(['/login']).then(() => {
       console.log('Navegación a registro completada');
     }).catch((error) => {
       console.error('Error en navegación:', error);

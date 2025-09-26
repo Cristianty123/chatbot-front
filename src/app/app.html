@@ -1,4 +1,11 @@
 <div class="app-container">
+  <!-- Botón de mute global (visible en todas las páginas) -->
+  <div class="boton-mutear-global">
+    <button (click)="toggleMute()" [class.muted]="isMuted">
+      {{ isMuted ? '🔇' : '🔊' }}
+    </button>
+  </div>
+
   <div [@routeAnimations]="prepareRoute(routerOutlet)">
     <router-outlet #routerOutlet="outlet"></router-outlet>
   </div>

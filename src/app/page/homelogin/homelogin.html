@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tyrrel - Chatbot de Descuentos</title>
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <h1 class="logo">TYRREL</h1>
+    <div class="user-menu">
+      <span class="user-name">Hola, {{currentUser?.username || 'Usuario'}}</span>
+      <button class="logout-btn" (click)="logout()">CERRAR SESIÓN</button>
+    </div>
+  </header>
+
+  <div class="main-layout">
+    <!-- Barra lateral de chats -->
+    <aside class="chats-sidebar">
+      <div class="sidebar-header">
+        <h2>CHATS</h2>
+        <button class="new-chat-btn" (click)="startNewChat()">
+          <span>+</span> NUEVO CHAT
+        </button>
+      </div>
+      
+      <div class="chats-list">
+        <div class="chat-item" 
+             *ngFor="let chat of chats" 
+             [class.active]="chat.id === activeChatId"
+             (click)="selectChat(chat.id)">
+          <div class="chat-preview">
+            <div class="chat-title">{{ chat.title || 'Chat sin título' }}</div>
+            <div class="last-message">{{ chat.lastMessage }}</div>
+          </div>
+          <div class="chat-date">{{ chat.lastDate | date:'dd/MM/yy' }}</div>
+          <button class="delete-chat" (click)="deleteChat(chat.id, $event)">×</button>
+        </div>
+        
+        <div class="empty-state" *ngIf="chats.length === 0">
+          <p>No hay chats guardados</p>
+          <p>¡Inicia una nueva conversación!</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Área principal del chat (igual al home) -->
+    <main class="main-content">
+      <div class="main-card">
+        <!-- Quitamos las corner-images -->
+        
+        <!-- Tagline que desaparece (como en home) -->
+        <p class="tagline" [class.hidden]="chatStarted">¿Qué producto le deseas buscar un descuento?</p>
+
+        <!-- Contenedor de chat -->
+        <div class="chat-container" [class.active]="chatStarted">
+          <!-- Mensajes del chat -->
+          <div class="messages-container" #messagesContainer>
+            <div *ngFor="let message of activeChatMessages" 
+                 [class.user-message]="message.isUser" 
+                 [class.bot-message]="!message.isUser" 
+                 class="message">
+              <div class="message-content" [innerHTML]="message.content | formatMessage"></div>
+              <div class="message-time">
+                {{ message.timestamp | date:'HH:mm' }}
+              </div>
+            </div>
+
+            <!-- Indicador de carga -->
+            <div class="loading-indicator" *ngIf="isLoading">
+              <div class="typing-animation">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input de chat -->
+          <div class="chat-input-container">
+            <input #chatInput 
+                   class="chat-input" 
+                   type="text" 
+                   placeholder="Escribe tu mensaje..." 
+                   [(ngModel)]="userInput"
+                   (keyup.enter)="sendMessage()" 
+                   [disabled]="isLoading">
+            <button class="send-btn" 
+                    (click)="sendMessage()" 
+                    [disabled]="isLoading || !userInput.trim()">
+              <span class="send-icon">➤</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Search container (se transforma como en home) -->
+        <div class="search-container" [class.hidden]="chatStarted">
+          <input
+            #searchInput
+            class="search-bar"
+            type="text"
+            placeholder="SEARCH FOR A PRODUCT"
+            (keyup.enter)="startChat()"
+            [(ngModel)]="userInput">
+        </div>
+
+        <!-- Botón de búsqueda (desaparece) -->
+        <button class="search-btn" [class.hidden]="chatStarted" (click)="startChat()">BUSCAR</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Imágenes grandes de fondo (igual que home) -->
+  <img class="bg-decoration bg-left-top" src="/logo-light.png" alt="Decoración fondo">
+  <img class="bg-decoration bg-left-bottom" src="/logo-light.png" alt="Decoración fondo">
+  <img class="bg-decoration bg-right-top" src="/logo-light.png" alt="Decoración fondo">
+  <img class="bg-decoration bg-right-bottom" src="/logo-light.png" alt="Decoración fondo">
+</div>
+</body>
+</html>
