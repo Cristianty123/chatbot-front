@@ -27,31 +27,31 @@
     </div>
 
     <div class="form-group">
-      <input 
-        type="text" 
-        class="form-input" 
-        id="username" 
-        placeholder=" " 
+      <input
+        type="text"
+        class="form-input"
+        id="username"
+        placeholder=" "
         [(ngModel)]="username"
         [disabled]="isLoading">
       <label for="username" class="form-label">NOMBRE DE USUARIO</label>
     </div>
 
     <div class="form-group">
-      <input 
-        type="password" 
-        class="form-input" 
-        id="password" 
-        placeholder=" " 
+      <input
+        type="password"
+        class="form-input"
+        id="password"
+        placeholder=" "
         [(ngModel)]="password"
         [disabled]="isLoading">
       <label for="password" class="form-label">CONTRASEÑA</label>
     </div>
 
-    <button 
-      type="submit" 
-      class="submit-btn" 
-      (click)="login()" 
+    <button
+      type="submit"
+      class="submit-btn"
+      (click)="login()"
       [disabled]="isLoading">
       <span *ngIf="!isLoading">INICIAR SESIÓN</span>
       <span *ngIf="isLoading">CARGANDO...</span>

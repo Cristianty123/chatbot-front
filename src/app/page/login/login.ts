@@ -23,7 +23,7 @@ export class Login implements OnInit {  // ← Implementar OnInit
 
   ngOnInit() {
     document.documentElement.setAttribute('data-theme', 'login');
-    
+
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/homelogin']);
     }
@@ -50,7 +50,7 @@ export class Login implements OnInit {  // ← Implementar OnInit
     this.authService.login(credentials).subscribe({
       next: (response) => {
         this.isLoading = false;
-        
+
         if (response?.success) {
           console.log('✅ Login exitoso:', response.user);
           this.router.navigate(['/homelogin']);
@@ -61,7 +61,7 @@ export class Login implements OnInit {  // ← Implementar OnInit
       error: (error) => {
         this.isLoading = false;
         console.error('❌ Error en login:', error);
-        
+
         if (error.error && error.error.error) {
           this.errorMessage = error.error.error;
         } else if (error.status === 401) {

@@ -1,9 +1,9 @@
 import { Component, OnInit, HostListener, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {FormatMessagePipe} from '../../pipes/format-message.pipe';
+import {ChatService} from '../../services/chat.service';
 
 interface ChatMessage {
   content: string;
@@ -27,12 +27,12 @@ export class Home implements OnInit {
   userInput = '';
   messages: ChatMessage[] = [];
   isLoading = false;
-  sessionId: string | null = null;
+  sessionId: string | undefined = undefined;
   private shouldScroll = false;
 
   constructor(
     private router: Router,
-    private http: HttpClient,
+    private chatService: ChatService ,
     private cdRef: ChangeDetectorRef
   ) {}
 
@@ -69,7 +69,7 @@ export class Home implements OnInit {
     }
   }
 
-  async sendMessage() {
+  sendMessage() {
     const message = this.userInput.trim();
     if (!message || this.isLoading) return;
 
@@ -77,23 +77,22 @@ export class Home implements OnInit {
     this.userInput = '';
     this.isLoading = true;
 
-    try {
-      const response = await this.http.post<any>('http://localhost:8080/chat/nologin', {
-        message: message,
-        session_id: this.sessionId
-      }).toPromise();
-
-      if (response.success) {
-        this.addMessage(response.response, false);
-      } else {
-        this.addMessage(' (;´д`) Lo siento, hubo un error. Por favor intenta nuevamente.', false);
+    this.chatService.chatWithoutLogin(message, this.sessionId).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.addMessage(response.response || 'Respuesta vacía', false);
+        } else {
+          this.addMessage(' (;´д`) Lo siento, hubo un error. Por favor intenta nuevamente.', false);
+        }
+      },
+      error: (error) => {
+        console.error('Error al enviar mensaje:', error);
+        this.addMessage(' (;´д`) Error de conexión. Por favor intenta más tarde.', false);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
-    } catch (error) {
-      console.error('Error al enviar mensaje:', error);
-      this.addMessage(' (;´д`)Error de conexión. Por favor intenta más tarde.', false);
-    } finally {
-      this.isLoading = false;
-    }
+    });
   }
 
   addMessage(content: string, isUser: boolean) {

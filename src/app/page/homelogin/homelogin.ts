@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FormatMessagePipe } from '../../pipes/format-message.pipe';
 import { AuthService, User } from '../../services/auth.service';
-import { ChatService, Chat, ChatMessage as ApiChatMessage } from '../../services/chat.service';
+import { ChatService, Chat } from '../../services/chat.service';
 
 interface LocalChatMessage {
   content: string;
@@ -26,18 +26,18 @@ interface LocalChat {
   templateUrl: './homelogin.html',
   styleUrl: './homelogin.css'
 })
-export class HomeLogin implements OnInit {
+export class Homelogin implements OnInit {
 
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
   @ViewChild('searchInput') private searchInput!: ElementRef;
   @ViewChild('chatInput') private chatInput!: ElementRef;
 
-  chatStarted = false; // ← NUEVA propiedad para controlar el estado del chat
+  chatStarted = false;
   userInput = '';
   isLoading = false;
   activeChatId: string | null = null;
   currentUser: User | null = null;
-  
+
   chats: LocalChat[] = [];
   activeChatMessages: LocalChatMessage[] = [];
 
@@ -45,12 +45,11 @@ export class HomeLogin implements OnInit {
     private router: Router,
     private authService: AuthService,
     private chatService: ChatService,
-    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     document.documentElement.setAttribute('data-theme', 'main');
-    
+
     // Verificar autenticación
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
@@ -91,7 +90,7 @@ export class HomeLogin implements OnInit {
       next: (response) => {
         if (response.success) {
           this.chats = response.chats.map(apiChat => this.transformApiChatToLocalChat(apiChat));
-          
+
           // Seleccionar el primer chat o crear uno nuevo
           if (this.chats.length > 0) {
             this.selectChat(this.chats[0].id);
@@ -145,7 +144,7 @@ export class HomeLogin implements OnInit {
     this.loadChatMessages(chatId);
     this.chatStarted = true;
     this.setBodyChatClass(true);
-    
+
     setTimeout(() => {
       if (this.chatInput) {
         this.chatInput.nativeElement.focus();
@@ -153,18 +152,57 @@ export class HomeLogin implements OnInit {
     }, 100);
   }
 
-  startNewChat() {
+  async startNewChat() {
+    try {
+      this.isLoading = true;
+
+      // Crear nuevo chat en el backend (o reutilizar uno vacío)
+      const response = await this.chatService.createNewChat().toPromise();
+
+      if (response?.success) {
+        this.activeChatId = response.chat_id;
+
+        // Limpiar frontend
+        this.activeChatMessages = [];
+        this.userInput = '';
+        this.chatStarted = true;
+        this.setBodyChatClass(true);
+
+        // Solo recargar lista de chats si se creó uno nuevo
+        if (response.was_created) {
+          this.loadUserChats();
+        }
+
+        setTimeout(() => {
+          if (this.chatInput) {
+            this.chatInput.nativeElement.focus();
+          }
+        }, 100);
+
+        console.log(response.was_created ? '🆕 Chat creado' : '🔄 Chat vacío reutilizado');
+      } else {
+        // ✅ Ahora response.error existe en la interfaz
+        console.error('Error al crear chat:', response?.error);
+        this.handleNewChatError(response?.error);
+      }
+    } catch (error) {
+      console.error('Error al crear nuevo chat:', error);
+      this.handleNewChatError('Error de conexión');
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  private handleNewChatError(errorMessage?: string) {
     this.activeChatId = null;
     this.activeChatMessages = [];
     this.userInput = '';
     this.chatStarted = false;
     this.setBodyChatClass(false);
-    
-    setTimeout(() => {
-      if (this.searchInput) {
-        this.searchInput.nativeElement.focus();
-      }
-    }, 100);
+
+    if (errorMessage) {
+      console.error('Error en nuevo chat:', errorMessage);
+    }
   }
 
   async sendMessage() {
@@ -183,19 +221,16 @@ export class HomeLogin implements OnInit {
 
     try {
       console.log('🔍 Enviando mensaje al chat autenticado...');
-      
-      let response;
-      
-      if (this.activeChatId) {
-        response = await this.chatService.chatWithLogin(message, this.activeChatId).toPromise();
-      } else {
-        response = await this.chatService.chatWithLogin(message).toPromise();
-      }
+
+      const response = this.activeChatId
+        ? await this.chatService.chatWithLogin(message, this.activeChatId).toPromise()
+        : await this.chatService.chatWithLogin(message).toPromise();
 
       console.log('🔍 Respuesta del servidor:', response);
 
       if (!response) {
-        throw new Error('No se recibió respuesta del servidor');
+        this.handleMessageError('No se recibió respuesta del servidor');
+        return;
       }
 
       if (response.success) {
@@ -205,21 +240,29 @@ export class HomeLogin implements OnInit {
         }
         this.addMessage(response.response || 'Respuesta del asistente', false);
       } else {
-        throw new Error(response.error || 'Error del servidor');
+        this.handleMessageError(response.error || 'Error del servidor');
       }
     } catch (error: any) {
       console.error('❌ Error completo al enviar mensaje:', error);
-      
-      if (error.status === 401) {
-        this.addMessage(' (;´д`) Sesión expirada. Redirigiendo al login...', false);
-        setTimeout(() => this.router.navigate(['/login']), 2000);
-      } else if (error.status === 404) {
-        this.addMessage(' (;´д`) Endpoint no encontrado. ¿Está corriendo el backend?', false);
-      } else {
-        this.addMessage(' (;´д`) Error de conexión. Por favor intenta más tarde.', false);
-      }
+      this.handleHttpError(error);
     } finally {
       this.isLoading = false;
+    }
+  }
+
+  private handleMessageError(errorMessage: string) {
+    console.error('Error en el mensaje:', errorMessage);
+    this.addMessage(' (;´д`) Error: ' + errorMessage, false);
+  }
+
+  private handleHttpError(error: any) {
+    if (error.status === 401) {
+      this.addMessage(' (;´д`) Sesión expirada. Redirigiendo al login...', false);
+      setTimeout(() => this.router.navigate(['/login']), 2000);
+    } else if (error.status === 404) {
+      this.addMessage(' (;´д`) Endpoint no encontrado. ¿Está corriendo el backend?', false);
+    } else {
+      this.addMessage(' (;´д`) Error de conexión. Por favor intenta más tarde.', false);
     }
   }
 
@@ -233,7 +276,7 @@ export class HomeLogin implements OnInit {
   }
 
   scrollToBottom() {
-    if (this.messagesContainer && this.messagesContainer.nativeElement) {
+    if (this.messagesContainer?.nativeElement) {
       setTimeout(() => {
         const container = this.messagesContainer.nativeElement;
         container.scrollTop = container.scrollHeight;
@@ -254,17 +297,54 @@ export class HomeLogin implements OnInit {
     });
   }
 
-  deleteChat(chatId: string, event: Event) {
+  async deleteChat(chatId: string, event: Event) {
     event.stopPropagation();
-    console.log('Eliminar chat:', chatId);
-    this.chats = this.chats.filter(chat => chat.id !== chatId);
-    
-    if (this.activeChatId === chatId) {
-      if (this.chats.length > 0) {
-        this.selectChat(this.chats[0].id);
+
+    // Confirmar eliminación
+    if (!confirm('¿Estás seguro de que quieres eliminar este chat?')) {
+      return;
+    }
+
+    try {
+      const response = await this.chatService.deleteChat(chatId).toPromise();
+
+      if (response?.success) {
+        console.log('🗑️ Chat eliminado:', chatId);
+
+        // Eliminar de la vista local
+        this.chats = this.chats.filter(chat => chat.id !== chatId);
+
+        // Si el chat activo fue eliminado, cambiar a otro chat
+        if (this.activeChatId === chatId) {
+          if (this.chats.length > 0) {
+            this.selectChat(this.chats[0].id);
+          } else {
+            await this.startNewChat();
+          }
+        }
       } else {
-        this.startNewChat();
+        this.handleDeleteError(response?.error || 'Error desconocido');
       }
+    } catch (error: any) {
+      console.error('Error completo al eliminar chat:', error);
+      this.handleDeleteHttpError(error);
+    }
+  }
+
+  private handleDeleteError(errorMessage: string) {
+    console.error('Error al eliminar chat:', errorMessage);
+    alert('Error al eliminar el chat: ' + errorMessage);
+  }
+
+  private handleDeleteHttpError(error: any) {
+    if (error.status === 404) {
+      alert('Chat no encontrado. Puede que ya haya sido eliminado.');
+      this.loadUserChats();
+    } else if (error.status === 401) {
+      alert('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      this.router.navigate(['/login']);
+    } else {
+      alert('Error de conexión. Por favor intenta más tarde.');
     }
   }
 

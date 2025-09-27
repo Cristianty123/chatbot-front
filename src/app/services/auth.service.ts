@@ -24,7 +24,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = 'http://192.168.1.54:8080/api/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -40,7 +40,7 @@ export class AuthService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    
+
     return this.http.post<AuthResponse>(`${this.apiUrl}/register/`, userData, { headers }).pipe(
       tap(response => {
         if (response.success) {
@@ -55,7 +55,7 @@ export class AuthService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    
+
     return this.http.post<AuthResponse>(`${this.apiUrl}/login/`, credentials, { headers }).pipe(
       tap(response => {
         if (response.success) {

@@ -18,6 +18,14 @@ export interface Chat {
   message_count: number;
 }
 
+export interface NewChatResponse {
+  success: boolean;
+  chat_id: string;
+  title: string;
+  was_created?: boolean;
+  error?: string;
+}
+
 export interface ChatResponse {
   success: boolean;
   response?: string;
@@ -39,11 +47,17 @@ export interface MessagesResponse {
   error?: string;
 }
 
+export interface DeleteChatResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = 'http://192.168.1.54:8080/chatbot';
 
   constructor(
     private http: HttpClient,
@@ -59,8 +73,25 @@ export class ChatService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    
+
     return this.http.post<ChatResponse>(`${this.baseUrl}/chat/nologin`, body,  {headers});
+  }
+
+  deleteChat(chatId: string): Observable<DeleteChatResponse> {
+    const headers = this.authService.getAuthHeaders();
+    return this.http.delete<DeleteChatResponse>(
+      `${this.baseUrl}/api/chats/${chatId}/`,
+      { headers }
+    );
+  }
+
+  createNewChat(): Observable<NewChatResponse> {
+    const headers = this.authService.getAuthHeaders();
+    return this.http.post<NewChatResponse>(
+      `${this.baseUrl}/api/chats/new/`,
+      {},
+      { headers }
+    );
   }
 
   // CHAT CON LOGIN
@@ -71,14 +102,14 @@ export class ChatService {
     };
 
     const headers = this.authService.getAuthHeaders();
-    
-    return this.http.post<ChatResponse>(`${this.baseUrl}/chat/`, body, { headers });
+
+    return this.http.post<ChatResponse>(`${this.baseUrl}/chat/login`, body, { headers });
   }
 
   // OBTENER CHATS DEL USUARIO
   getUserChats(): Observable<ChatsResponse> {
     const headers = this.authService.getAuthHeaders();
-    return this.http.get<ChatsResponse>(`${this.baseUrl}/chats/`, { headers });
+    return this.http.get<ChatsResponse>(`${this.baseUrl}/chats`, { headers });
   }
 
   // OBTENER MENSAJES DE UN CHAT
