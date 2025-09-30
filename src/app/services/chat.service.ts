@@ -57,7 +57,7 @@ export interface DeleteChatResponse {
   providedIn: 'root'
 })
 export class ChatService {
-  private baseUrl = 'http://192.168.1.54:8080/chatbot';
+  private baseUrl = 'https://ai-back-euatdhgcc9gnfzgj.centralus-01.azurewebsites.net/chatbot';
 
   constructor(
     private http: HttpClient,

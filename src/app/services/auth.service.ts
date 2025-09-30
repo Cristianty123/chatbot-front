@@ -24,7 +24,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://192.168.1.54:8080/api/auth';
+  private apiUrl = 'https://ai-back-euatdhgcc9gnfzgj.centralus-01.azurewebsites.net/api/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
