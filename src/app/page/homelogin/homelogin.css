@@ -4,6 +4,103 @@
   padding: 0;
 }
 
+/* ANIMACIONES PARA EL LOGO TYRREL */
+.logo {
+  font-family: "Algerian";
+  font-size: clamp(2rem, 5vw, 3rem);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+.logo:hover {
+  transform: translateY(-2px) scale(1.05);
+  text-shadow: 
+    2px 2px 8px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(240, 143, 102, 0.4);
+  color: #ff9c7a; /* Color más claro al hover */
+}
+
+
+.logo:hover::after {
+  left: 100%;
+}
+
+/* ANIMACIONES MEJORADAS PARA CERRAR SESIÓN */
+.logout-btn {
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-family: "Algerian", sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  background: var(--secondary-color) url('../../../assets/images/noise.png') repeat;
+  color: var(--text-color);
+  border: none;
+  background-size: 50px 50px;
+}
+
+.logout-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(240, 143, 102, 0.3);
+  background: var(--accent-color);
+  color: var(--button-text);
+}
+
+/* Efecto de onda al hacer hover */
+.logout-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.logout-btn:hover::before {
+  left: 100%;
+}
+
+/* Efecto de pulso en el borde */
+.logout-btn::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: linear-gradient(
+    45deg,
+    var(--accent-color),
+    #ff9c7a,
+    var(--accent-color)
+  );
+  background-size: 200% 200%;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: gradientShift 3s ease infinite;
+}
+
+.logout-btn:hover::after {
+  opacity: 1;
+}
+
 .container {
   position: relative;
   width: 100%;
@@ -15,17 +112,54 @@
   padding: 20px;
 }
 
-/* HEADER MEJORADO - Sin botones de login/signup */
-.header {
+/* BOTÓN HAMBURGUESA - SOLO EN MÓVIL */
+.menu-toggle {
+  display: none; /* Oculto por defecto en desktop */
+}
+
+/* HEADER MÓVIL - Solo aparece cuando sidebar está activa */
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  background: var(--secondary-color);
+  padding: 15px 20px;
+  z-index: 85;
+  border-bottom: 2px solid rgba(240, 143, 102, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-header .menu-toggle.mobile {
+  background: var(--accent-color);
+  border: none;
+  color: var(--button-text);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
-  z-index: 20;
-  position: relative;
-  margin-top: 30px;
+  justify-content: center;
+}
+
+.mobile-title {
+  font-family: "Algerian", sans-serif;
+  font-size: 24px;
+  color: var(--accent-color);
+  text-align: center;
+  flex: 1;
+  margin: 0 20px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
 }
 
 .logo {
@@ -34,6 +168,7 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   color: var(--accent-color);
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .user-menu {
@@ -65,175 +200,60 @@
   border: none;
   background-size: 50px 50px;
 }
-/* ESTILOS COPIADOS DEL HOME PARA LA EXPERIENCIA IDÉNTICA */
 
-/* Tagline estilo home */
-.tagline {
-  font-family: "Algerian", sans-serif;
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  text-align: center;
-  margin-bottom: 20px;
-  max-width: 100%;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  padding: 0 15px;
-  line-height: 1.3;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-}
-
-.tagline.hidden {
-  opacity: 0;
-  visibility: hidden;
-  height: 0;
-  margin: 0;
-  padding: 0;
-}
-
-/* Search container estilo home */
-.search-container {
-  position: relative;
-  width: 90%;
-  max-width: 700px;
-  margin: 0 auto 20px;
-  transition: all 0.3s ease;
-}
-
-.search-container.hidden {
-  opacity: 0;
-  visibility: hidden;
-  height: 0;
-  margin: 0;
-}
-
-.search-bar {
-  width: 100%;
-  height: 90px;
-  border-radius: 40px;
+/* BOTÓN HAMBURGUESA MEJORADO - SOLO EN MÓVIL Y NO FIJO */
+.menu-toggle {
+  display: none; /* Oculto por defecto */
+  background: var(--accent-color);
   border: none;
-  outline: none;
-  padding: 0 30px;
-  font-family: "Algerian", sans-serif;
-  font-size: 1.2rem;
-  background: var(--input-bg) url('../../../assets/images/noise3.png') repeat;
-  background-size: 100px 100px;
-  box-shadow:
-    inset 0 0 10px rgba(0, 0, 0, 0.2),
-    0 0 15px rgba(0, 0, 0, 0.3);
-  color: var(--input-text);
-  text-transform: uppercase;
+  color: var(--button-text);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 8px;
+  z-index: 1000;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  margin-right: 15px;
 }
 
-/* Search button estilo home */
-.search-btn {
-  padding: 15px 50px;
-  background: var(--button-bg) url('../../../assets/images/noise2.png') repeat;
-  border-radius: 15px;
+.menu-toggle:hover {
+  transform: scale(1.1);
+  background: #e07d56;
+}
+
+/* HEADER MEJORADO - Para manejar logo y hamburguesa */
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  z-index: 100;
+  position: relative;
+  margin-top: 30px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.logo {
   font-family: "Algerian", sans-serif;
-  font-size: 24px;
-  color: var(--button-text);
+  font-size: clamp(2rem, 5vw, 3rem);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: var(--accent-color);
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow:
-    0 0 15px rgba(0, 0, 0, 0.3),
-    0 0 30px rgba(0, 0, 0, 0.1);
-  background-size: 25px 25px;
-  margin: 0 auto;
-  display: block;
-  text-transform: uppercase;
-  position: relative;
-  overflow: hidden;
-}
-
-.search-btn.hidden {
-  opacity: 0;
-  visibility: hidden;
-  height: 0;
-  margin: 0;
-}
-
-.search-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: 0.5s;
-}
-
-.search-btn:hover::before {
-  left: 100%;
-}
-
-.search-btn:hover {
-  transform: scale(1.05);
-  box-shadow:
-    0 0 20px rgba(0, 0, 0, 0.4),
-    0 0 40px rgba(0, 0, 0, 0.2);
-}
-
-/* Chat container transiciones como home */
-.chat-container {
-  opacity: 0;
-  visibility: hidden;
-  height: 0;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-
-.chat-container.active {
-  opacity: 1;
-  visibility: visible;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Quitar corner-images del main-card */
-.main-card .corner-image {
-  display: none;
-}
-
-/* Ajustes responsive adicionales */
-@media (max-width: 768px) {
-  .search-bar {
-    height: 70px;
-    font-size: 1rem;
-  }
-
-  .search-btn {
-    font-size: 20px;
-    padding: 12px 30px;
-  }
-
-  .tagline {
-    font-size: 1rem;
-    margin-bottom: 15px;
-  }
-}
-
-/* EFECTO DE ANIMACIÓN PARA LOGOUT */
-.logout-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: 0.5s;
-}
-
-.logout-btn:hover::before {
-  left: 100%;
-}
-
-.logout-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
-  background: var(--accent-color);
-  color: var(--button-text);
 }
 
 /* LAYOUT PRINCIPAL CON BARRA LATERAL */
@@ -247,7 +267,7 @@
   height: calc(100vh - 180px);
 }
 
-/* BARRA LATERAL DE CHATS - ESTILO COHERENTE */
+/* BARRA LATERAL DE CHATS - MEJORADA PARA MÓVIL */
 .chats-sidebar {
   width: 350px;
   background: var(--secondary-color) url('../../../assets/images/noise.png') repeat;
@@ -262,6 +282,8 @@
   image-rendering: pixelated;
   display: flex;
   flex-direction: column;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  z-index: 90;
 }
 
 .sidebar-header {
@@ -399,6 +421,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   opacity: 0.9;
+  font-family: Arial, sans-serif;
+  text-transform: none;
 }
 
 .chat-date {
@@ -445,12 +469,14 @@
   font-size: 16px;
 }
 
-/* CONTENIDO PRINCIPAL - IDÉNTICO AL HOME ORIGINAL */
+/* CONTENIDO PRINCIPAL */
 .main-content {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 10;
 }
 
 .main-card {
@@ -469,25 +495,40 @@
   image-rendering: pixelated;
   display: flex;
   flex-direction: column;
+  z-index: 10;
 }
 
-.corner-image {
-  position: absolute;
-  width: 8%;
-  max-width: 100px;
-  height: auto;
-  aspect-ratio: 130/257;
+/* BACKGROUND DECORATIONS - MEJORADO RESPONSIVE */
+.bg-decoration {
+  position: fixed;
+  z-index: 1; /* Detrás de todo el contenido */
   object-fit: cover;
-  z-index: 2;
   filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.7));
+  width: 15%; /* Más pequeño para móvil */
+  max-width: 150px;
+  height: auto;
+  pointer-events: none;
+  opacity: 0.7; /* Más transparente */
 }
 
-.top-left { top: 0; left: 0; }
-.top-right { top: 0; right: 0; }
-.bottom-left { bottom: 0; left: 0; }
-.bottom-right { bottom: 0; right: 0; }
+.bg-left-top { 
+  top: 10%; 
+  left: 2%; 
+}
+.bg-left-bottom { 
+  bottom: 5%; 
+  left: 2%; 
+}
+.bg-right-top { 
+  top: 10%; 
+  right: 2%; 
+}
+.bg-right-bottom { 
+  bottom: 5%; 
+  right: 2%; 
+}
 
-/* ESTILOS DEL CHAT - IDÉNTICOS AL HOME ORIGINAL */
+/* ESTILOS DEL CHAT - MEJORADOS PARA LEGIBILIDAD */
 .chat-container.active {
   opacity: 1;
   visibility: visible;
@@ -514,6 +555,7 @@
   margin: 5px 0;
   position: relative;
   animation: fadeIn 0.3s ease;
+  z-index: 5;
 }
 
 .user-message {
@@ -528,13 +570,43 @@
   background: var(--secondary-color);
   color: var(--text-color);
   border-bottom-left-radius: 5px;
+  border: 1px solid rgba(240, 143, 102, 0.3);
 }
 
 .message-content {
-  font-family: "Algerian", sans-serif;
-  font-size: 16px;
-  line-height: 1.4;
+  font-size: 15px;
+  line-height: 1.5;
   word-wrap: break-word;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-transform: none;
+  letter-spacing: 0.3px;
+}
+
+.bot-message .message-content a {
+  color: var(--accent-color);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.bot-message .message-content a:hover {
+  color: #e07d56;
+  text-decoration: none;
+}
+
+.bot-message .message-content strong {
+  color: var(--accent-color);
+  font-weight: 700;
+}
+
+.bot-message .message-content em {
+  font-style: italic;
+  color: var(--input-text);
+}
+
+.user-message .message-content {
+  font-family: "Algerian", sans-serif;
+  text-transform: uppercase;
+  font-size: 14px;
 }
 
 .message-time {
@@ -542,6 +614,7 @@
   opacity: 0.7;
   margin-top: 5px;
   text-align: right;
+  font-family: Arial, sans-serif;
 }
 
 .chat-input-container {
@@ -549,6 +622,7 @@
   gap: 10px;
   padding: 0 20px 20px;
   align-items: center;
+  z-index: 5;
 }
 
 .chat-input {
@@ -563,6 +637,7 @@
   background: var(--input-bg);
   color: var(--input-text);
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
 }
 
 .send-btn {
@@ -616,23 +691,130 @@
 .typing-animation span:nth-child(2) { animation-delay: 0.2s; }
 .typing-animation span:nth-child(3) { animation-delay: 0.4s; }
 
-/* BACKGROUND DECORATIONS */
-.bg-decoration {
-  position: absolute;
-  z-index: 1;
-  object-fit: cover;
-  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.7));
-  width: 20%;
-  max-width: 200px;
-  height: auto;
+/* ESTILOS COPIADOS DEL HOME */
+.tagline {
+  font-family: "Algerian", sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  text-align: center;
+  margin-bottom: 20px;
+  max-width: 100%;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 0 15px;
+  line-height: 1.3;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  z-index: 5;
 }
 
-.bg-left-top { top: 80px; left: 0; }
-.bg-left-bottom { bottom: 0; left: 0; }
-.bg-right-top { top: 80px; right: 0; }
-.bg-right-bottom { bottom: 0; right: 0; }
+.tagline.hidden {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
 
-/* ANIMATIONS - LAS MISMAS DEL HOME */
+.search-container {
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto 20px;
+  transition: all 0.3s ease;
+  z-index: 5;
+}
+
+.search-container.hidden {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+}
+
+.search-bar {
+  width: 100%;
+  height: 90px;
+  border-radius: 40px;
+  border: none;
+  outline: none;
+  padding: 0 30px;
+  font-family: "Algerian", sans-serif;
+  font-size: 1.2rem;
+  background: var(--input-bg) url('../../../assets/images/noise3.png') repeat;
+  background-size: 100px 100px;
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    0 0 15px rgba(0, 0, 0, 0.3);
+  color: var(--input-text);
+  text-transform: uppercase;
+}
+
+.search-btn {
+  padding: 15px 50px;
+  background: var(--button-bg) url('../../../assets/images/noise2.png') repeat;
+  border-radius: 15px;
+  font-family: "Algerian", sans-serif;
+  font-size: 24px;
+  color: var(--button-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 15px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(0, 0, 0, 0.1);
+  background-size: 25px 25px;
+  margin: 0 auto;
+  display: block;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.search-btn.hidden {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+}
+
+.search-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: 0.5s;
+}
+
+.search-btn:hover::before {
+  left: 100%;
+}
+
+.search-btn:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(0, 0, 0, 0.2);
+}
+
+.chat-container {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.chat-container.active {
+  opacity: 1;
+  visibility: visible;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ANIMATIONS */
 @keyframes typing {
   0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
   30% { transform: translateY(-10px); opacity: 1; }
@@ -641,6 +823,28 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInFromLeft {
+  from { 
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to { 
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToLeft {
+  from { 
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to { 
+    transform: translateX(-100%);
+    opacity: 0;
+  }
 }
 
 /* RESPONSIVE MEJORADO */
@@ -655,37 +859,134 @@
 }
 
 @media (max-width: 768px) {
+  /* HAMBURGUESA SOLO VISIBLE EN MÓVIL */
+  .menu-toggle {
+    display: flex; /* Solo visible en móvil */
+    background: var(--accent-color);
+    border: none;
+    color: var(--button-text);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 8px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    margin-right: 15px;
+  }
+
+  .menu-toggle:hover {
+    transform: scale(1.1);
+    background: #e07d56;
+  }
+
+  .logo-container {
+    justify-content: flex-start;
+  }
+
+  .logo {
+    margin-left: 0;
+    transition: all 0.3s ease;
+  }
+
+  .logo.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
   .main-layout {
-    flex-direction: column;
-    height: auto;
-    gap: 15px;
+    flex-direction: row;
+    height: calc(100vh - 140px);
+    gap: 0;
+    position: relative;
   }
 
   .chats-sidebar {
-    width: 100%;
-    height: 250px;
-    order: 2;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 300px;
+    max-width: 85%;
+    transform: translateX(-100%);
+    opacity: 0;
+    border-radius: 0 20px 20px 0;
+    z-index: 80;
+    padding-top: 80px;
+  }
+
+  .chats-sidebar.mobile-active {
+    transform: translateX(0);
+    opacity: 1;
+    animation: slideInFromLeft 0.4s ease;
+  }
+
+  .chats-sidebar:not(.mobile-active) {
+    animation: slideOutToLeft 0.4s ease;
   }
 
   .main-content {
-    order: 1;
-    height: 500px;
+    width: 100%;
+    height: 100%;
+    margin-left: 0;
+    transition: all 0.3s ease;
+  }
+
+  /* Cuando sidebar está activo, desplazar el contenido principal completo */
+  .chats-sidebar.mobile-active ~ .main-content {
+    transform: translateX(300px);
+  }
+
+  /* Overlay para cerrar sidebar */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 75;
+  }
+
+  .sidebar-overlay.active {
+    display: block;
   }
 
   .header {
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
     padding: 15px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 100;
   }
 
   .user-menu {
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
   }
 
-  .bg-decoration, .corner-image {
+  /* Ocultar espadas en móvil */
+  .bg-decoration {
     display: none;
+  }
+
+  .search-bar {
+    height: 70px;
+    font-size: 1rem;
+  }
+
+  .search-btn {
+    font-size: 20px;
+    padding: 12px 30px;
+  }
+
+  .tagline {
+    font-size: 1rem;
+    margin-bottom: 15px;
   }
 }
 
@@ -699,7 +1000,27 @@
   }
 
   .chats-sidebar {
-    padding: 20px 15px;
+    width: 280px;
+    padding: 70px 15px 20px 15px;
+  }
+
+  .menu-toggle {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+
+  .logo {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+  }
+
+  /* Ajustar desplazamiento del contenido cuando sidebar está activo */
+  .chats-sidebar.mobile-active ~ .main-content {
+    transform: translateX(280px);
+  }
+
+  .chats-sidebar.mobile-active ~ .main-content .header {
+    transform: translateX(280px);
   }
 
   .message {
@@ -721,5 +1042,30 @@
   .new-chat-btn {
     font-size: 18px;
     padding: 12px;
+  }
+
+  .user-menu {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .user-name {
+    font-size: 14px;
+  }
+
+  .logout-btn {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}
+
+/* PARA DESKTOP - Asegurar que hamburguesa no se vea */
+@media (min-width: 769px) {
+  .menu-toggle {
+    display: none !important; /* Forzar ocultar en desktop */
+  }
+  
+  .chats-sidebar {
+    display: flex !important; /* Forzar mostrar sidebar en desktop */
   }
 }

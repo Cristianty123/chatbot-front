@@ -7,8 +7,13 @@
 </head>
 <body>
 <div class="container">
+  <!-- Header FUERA del main-layout para que no se mueva -->
   <header class="header">
-    <h1 class="logo">TYRREL</h1>
+    <div class="logo-container">
+      <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
+      <h1 class="logo" [class.hidden]="sidebarActive">TYRREL</h1>
+    </div>
+    
     <div class="user-menu">
       <span class="user-name">Hola, {{currentUser?.username || 'Usuario'}}</span>
       <button class="logout-btn" (click)="logout()">CERRAR SESIÓN</button>
@@ -16,20 +21,25 @@
   </header>
 
   <div class="main-layout">
-    <!-- Barra lateral de chats -->
-    <aside class="chats-sidebar">
+    <!-- Overlay para cerrar sidebar en móvil -->
+    <div class="sidebar-overlay" 
+         [class.active]="sidebarActive" 
+         (click)="closeSidebar()"></div>
+    
+    <!-- Barra lateral con animación -->
+    <aside class="chats-sidebar" [class.mobile-active]="sidebarActive">
       <div class="sidebar-header">
         <h2>CHATS</h2>
-        <button class="new-chat-btn" (click)="startNewChat()">
+        <button class="new-chat-btn" (click)="startNewChat(); closeSidebar()">
           <span>+</span> NUEVO CHAT
         </button>
       </div>
-
+      
       <div class="chats-list">
-        <div class="chat-item"
-             *ngFor="let chat of chats"
+        <div class="chat-item" 
+             *ngFor="let chat of chats" 
              [class.active]="chat.id === activeChatId"
-             (click)="selectChat(chat.id)">
+             (click)="selectChat(chat.id); closeSidebar()">
           <div class="chat-preview">
             <div class="chat-title">{{ chat.title || 'Chat sin título' }}</div>
             <div class="last-message">{{ chat.lastMessage }}</div>
@@ -37,7 +47,7 @@
           <div class="chat-date">{{ chat.lastDate | date:'dd/MM/yy' }}</div>
           <button class="delete-chat" (click)="deleteChat(chat.id, $event)">×</button>
         </div>
-
+        
         <div class="empty-state" *ngIf="chats.length === 0">
           <p>No hay chats guardados</p>
           <p>¡Inicia una nueva conversación!</p>
@@ -45,21 +55,25 @@
       </div>
     </aside>
 
-    <!-- Área principal del chat (igual al home) -->
+    <!-- Área principal del chat - QUE INCLUYE EL HEADER EN MÓVIL -->
     <main class="main-content">
+      <!-- Header MÓVIL - Solo visible cuando sidebar está activa -->
+      <div class="mobile-header" *ngIf="sidebarActive">
+        <button class="menu-toggle mobile" (click)="closeSidebar()">✕</button>
+        <h2 class="mobile-title">CHATS</h2>
+      </div>
+      
       <div class="main-card">
-        <!-- Quitamos las corner-images -->
-
-        <!-- Tagline que desaparece (como en home) -->
-        <p class="tagline" [class.hidden]="chatStarted">¿Qué producto le deseas buscar un descuento?</p>
+        <!-- Tagline que desaparece -->
+        <p class="tagline" [class.hidden]="chatStarted">¿A qué producto deseas buscarle un descuento?</p>
 
         <!-- Contenedor de chat -->
         <div class="chat-container" [class.active]="chatStarted">
           <!-- Mensajes del chat -->
           <div class="messages-container" #messagesContainer>
-            <div *ngFor="let message of activeChatMessages"
-                 [class.user-message]="message.isUser"
-                 [class.bot-message]="!message.isUser"
+            <div *ngFor="let message of activeChatMessages" 
+                 [class.user-message]="message.isUser" 
+                 [class.bot-message]="!message.isUser" 
                  class="message">
               <div class="message-content" [innerHTML]="message.content | formatMessage"></div>
               <div class="message-time">
@@ -79,22 +93,22 @@
 
           <!-- Input de chat -->
           <div class="chat-input-container">
-            <input #chatInput
-                   class="chat-input"
-                   type="text"
-                   placeholder="Escribe tu mensaje..."
+            <input #chatInput 
+                   class="chat-input" 
+                   type="text" 
+                   placeholder="Escribe tu mensaje..." 
                    [(ngModel)]="userInput"
-                   (keyup.enter)="sendMessage()"
+                   (keyup.enter)="sendMessage()" 
                    [disabled]="isLoading">
-            <button class="send-btn"
-                    (click)="sendMessage()"
+            <button class="send-btn" 
+                    (click)="sendMessage()" 
                     [disabled]="isLoading || !userInput.trim()">
               <span class="send-icon">➤</span>
             </button>
           </div>
         </div>
 
-        <!-- Search container (se transforma como en home) -->
+        <!-- Search container -->
         <div class="search-container" [class.hidden]="chatStarted">
           <input
             #searchInput
@@ -105,13 +119,13 @@
             [(ngModel)]="userInput">
         </div>
 
-        <!-- Botón de búsqueda (desaparece) -->
+        <!-- Botón de búsqueda -->
         <button class="search-btn" [class.hidden]="chatStarted" (click)="startChat()">BUSCAR</button>
       </div>
     </main>
   </div>
 
-  <!-- Imágenes grandes de fondo (igual que home) -->
+  <!-- Imágenes de fondo -->
   <img class="bg-decoration bg-left-top" src="/logo-light.png" alt="Decoración fondo">
   <img class="bg-decoration bg-left-bottom" src="/logo-light.png" alt="Decoración fondo">
   <img class="bg-decoration bg-right-top" src="/logo-light.png" alt="Decoración fondo">
