@@ -6,11 +6,12 @@
 
 /* ANIMACIONES PARA EL LOGO TYRREL */
 .logo {
-  font-family: "Algerian";
+  font-family: "Algerian", sans-serif;
   font-size: clamp(2rem, 5vw, 3rem);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   color: var(--accent-color);
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .logo:hover {
@@ -27,13 +28,14 @@
 }
 
 /* ANIMACIONES MEJORADAS PARA CERRAR SESIÓN */
+
 .logout-btn {
   padding: 8px 20px;
   border-radius: 10px;
   font-family: "Algerian", sans-serif;
   font-size: 16px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s ease;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   text-transform: uppercase;
   position: relative;
@@ -112,10 +114,6 @@
   padding: 20px;
 }
 
-/* BOTÓN HAMBURGUESA - SOLO EN MÓVIL */
-.menu-toggle {
-  display: none; /* Oculto por defecto en desktop */
-}
 
 /* HEADER MÓVIL - Solo aparece cuando sidebar está activa */
 .mobile-header {
@@ -162,15 +160,6 @@
   flex: 1;
 }
 
-.logo {
-  font-family: "Algerian", sans-serif;
-  font-size: clamp(2rem, 5vw, 3rem);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  color: var(--accent-color);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
 .user-menu {
   display: flex;
   align-items: center;
@@ -184,22 +173,7 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.logout-btn {
-  padding: 8px 20px;
-  border-radius: 10px;
-  font-family: "Algerian", sans-serif;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  text-transform: uppercase;
-  position: relative;
-  overflow: hidden;
-  background: var(--secondary-color) url('../../../assets/images/noise.png') repeat;
-  color: var(--text-color);
-  border: none;
-  background-size: 50px 50px;
-}
+
 
 /* BOTÓN HAMBURGUESA MEJORADO - SOLO EN MÓVIL Y NO FIJO */
 .menu-toggle {
@@ -214,7 +188,6 @@
   z-index: 1000;
   width: 50px;
   height: 50px;
-  display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -240,21 +213,7 @@
   margin-top: 30px;
 }
 
-.logo-container {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  flex: 1;
-}
 
-.logo {
-  font-family: "Algerian", sans-serif;
-  font-size: clamp(2rem, 5vw, 3rem);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  color: var(--accent-color);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
 
 /* LAYOUT PRINCIPAL CON BARRA LATERAL */
 .main-layout {
@@ -806,13 +765,6 @@
   transition: all 0.3s ease;
 }
 
-.chat-container.active {
-  opacity: 1;
-  visibility: visible;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-}
 
 /* ANIMATIONS */
 @keyframes typing {
