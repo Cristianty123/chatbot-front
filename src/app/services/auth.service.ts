@@ -17,20 +17,19 @@ export interface AuthResponse {
     refresh: string;
     access: string;
   };
-  error?: string;  // ← Hacerla OPCIONAL al final
+  error?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://192.168.1.54:8080/api/auth';
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
+  private readonly apiUrl = 'https://ai-back-euatdhgcc9gnfzgj.centralus-01.azurewebsites.net/api/auth';
+  private readonly currentUserSubject = new BehaviorSubject<User | null>(null);
 
   constructor(
-    private http: HttpClient,
-    private router: Router
+    private readonly http: HttpClient,
+    private readonly router: Router
   ) {
     this.loadUserFromStorage();
   }
@@ -73,11 +72,6 @@ export class AuthService {
         this.router.navigate(['/']);
       })
     );
-  }
-
-  // OBTENER PERFIL
-  getProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/profile/`);
   }
 
   // VERIFICAR SI ESTÁ AUTENTICADO

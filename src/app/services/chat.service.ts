@@ -57,11 +57,11 @@ export interface DeleteChatResponse {
   providedIn: 'root'
 })
 export class ChatService {
-  private baseUrl = 'http://192.168.1.54:8080/chatbot';
+  private readonly baseUrl = 'https://ai-back-euatdhgcc9gnfzgj.centralus-01.azurewebsites.net/chatbot';
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthService
+    private readonly http: HttpClient,
+    private readonly authService: AuthService
   ) {}
 
   // CHAT SIN LOGIN
@@ -116,22 +116,5 @@ export class ChatService {
   getChatMessages(chatId: string): Observable<MessagesResponse> {
     const headers = this.authService.getAuthHeaders();
     return this.http.get<MessagesResponse>(`${this.baseUrl}/chats/${chatId}/messages/`, { headers });
-  }
-
-  // BÚSQUEDA DE PRODUCTOS
-  searchProducts(query: string, sessionId?: string, limit: number = 5): Observable<any> {
-    const body = {
-      query: query,
-      session_id: sessionId,
-      limit: limit
-    };
-
-    return this.http.post(`${this.baseUrl}/search-products/`, body);
-  }
-
-  // LIMPIAR HISTORIAL
-  clearChatHistory(sessionId: string): Observable<any> {
-    const body = { session_id: sessionId };
-    return this.http.post(`${this.baseUrl}/clear-chat-history/`, body);
   }
 }

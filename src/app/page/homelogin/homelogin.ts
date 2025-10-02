@@ -37,6 +37,7 @@ export class Homelogin implements OnInit {
   isLoading = false;
   activeChatId: string | null = null;
   currentUser: User | null = null;
+  sidebarActive = false;
 
   chats: LocalChat[] = [];
   activeChatMessages: LocalChatMessage[] = [];
@@ -58,6 +59,21 @@ export class Homelogin implements OnInit {
 
     this.currentUser = this.authService.getCurrentUser();
     this.loadUserChats();
+  }
+  
+  toggleSidebar() {
+    this.sidebarActive = !this.sidebarActive;
+    // Prevenir scroll del body cuando el sidebar está abierto en móvil
+    if (window.innerWidth <= 768) {
+      if (this.sidebarActive) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+    }
+  }
+  }
+  closeSidebar() {
+    this.sidebarActive = false;
   }
 
   // MÉTODO PARA INICIAR CHAT (como en home)
@@ -145,6 +161,9 @@ export class Homelogin implements OnInit {
     this.chatStarted = true;
     this.setBodyChatClass(true);
 
+    // Cerrar sidebar en móvil al seleccionar chat
+    this.closeSidebar();
+
     setTimeout(() => {
       if (this.chatInput) {
         this.chatInput.nativeElement.focus();
@@ -191,6 +210,7 @@ export class Homelogin implements OnInit {
     } finally {
       this.isLoading = false;
     }
+    this.closeSidebar();
   }
 
   private handleNewChatError(errorMessage?: string) {
@@ -359,4 +379,20 @@ export class Homelogin implements OnInit {
       }
     }
   }
+  // Listener para cerrar sidebar al hacer clic fuera 
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: Event) {
+  if (window.innerWidth <= 768 && this.sidebarActive) {
+    const target = event.target as HTMLElement;
+    const sidebar = document.querySelector('.chats-sidebar');
+    const menuToggle = document.querySelector('.menu-toggle');
+    
+    if (sidebar && !sidebar.contains(target) && 
+        menuToggle && !menuToggle.contains(target)) {
+      this.sidebarActive = false;
+      document.body.style.overflow = '';
+    }
+  }
+}
+
 }
