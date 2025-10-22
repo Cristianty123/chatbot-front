@@ -24,7 +24,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiUrl = 'https://ai-back-euatdhgcc9gnfzgj.centralus-01.azurewebsites.net/api/auth';
+  private readonly apiUrl = 'https://ia-back-bketewhranetapck.centralus-01.azurewebsites.net/api/auth';
   private readonly currentUserSubject = new BehaviorSubject<User | null>(null);
 
   constructor(
