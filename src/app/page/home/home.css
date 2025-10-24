@@ -3,6 +3,158 @@
   margin: 0;
   padding: 0;
 }
+/* Variables CSS para temas */
+:root {
+  /* Colores modo oscuro (por defecto) - Estilo Angelical Retro */
+  --primary-color: #1a1a2e;
+  --secondary-color: #16213e;
+  --accent-color: #e94560;
+  --text-color: #e6e6e6;
+  --button-bg: #533483;
+  --button-text: #ffffff;
+  --input-bg: #0f3460;
+  --input-text: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-glow: rgba(240, 143, 102, 0.3);
+  --angel-glow: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] {
+  /* Colores modo claro - Estilo Angelical Retro */
+  --primary-color: #f0f0f5;
+  --secondary-color: #e6e6fa;
+  --accent-color: #ff6b9d;
+  --text-color: #333366;
+  --button-bg: #b19cd9;
+  --button-text: #ffffff;
+  --input-bg: #ffffff;
+  --input-text: #333366;
+  --shadow-color: rgba(181, 181, 220, 0.3);
+  --border-glow: rgba(177, 156, 217, 0.5);
+  --angel-glow: rgba(255, 255, 255, 0.7);
+}
+
+/* Aplicar colores a los elementos existentes */
+body {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  transition: all 0.5s ease;
+}
+
+/* Estilos para el interruptor de tema */
+.theme-switch {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.theme-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  z-index: 1;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.theme-icon:first-child {
+  left: 8px;
+}
+
+.theme-icon:last-child {
+  right: 8px;
+}
+
+/* Efectos angelicales para botones */
+.nav-btn, .search-btn, .send-btn {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-glow);
+  box-shadow: 
+    0 0 10px var(--shadow-color),
+    inset 0 0 5px var(--angel-glow);
+}
+
+.nav-btn::after, .search-btn::after, .send-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    var(--angel-glow),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.nav-btn:hover::after, .search-btn:hover::after, .send-btn:hover::after {
+  opacity: 1;
+  animation: angelShine 1.5s ease;
+}
+
+@keyframes angelShine {
+  0% { transform: rotate(45deg) translateX(-100%); }
+  100% { transform: rotate(45deg) translateX(100%); }
+}
+
+
+
+.logo::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(
+    circle,
+    var(--angel-glow) 0%,
+    transparent 70%
+  );
+  z-index: -1;
+  opacity: 0.3;
+  border-radius: 50%;
+}
+
+/* Estilos para imágenes en modo claro */
+[data-theme="light"] .corner-image,
+[data-theme="light"] .bg-decoration {
+  filter: drop-shadow(0 0 5px rgba(177, 156, 217, 0.5)) 
+          brightness(1.1) 
+          contrast(1.2);
+}
+
+/* Ajustes específicos para el chat en modo claro */
+[data-theme="light"] .user-message {
+  background: var(--accent-color);
+  color: var(--button-text);
+}
+
+[data-theme="light"] .bot-message {
+  background: var(--secondary-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-glow);
+}
+
+/* Efecto de partículas angelicales (opcional) */
+.angel-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--angel-glow);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
 
 .container {
   position: relative;
@@ -473,4 +625,38 @@
 
 .bot-message .message-content a.product-link {
   color: var(--accent-color);
+}
+
+/* Animación para partículas angelicales */
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(20px);
+    opacity: 0;
+  }
+}
+
+/* Responsive para el interruptor de tema */
+@media (max-width: 768px) {
+  .theme-switch {
+    bottom: 15px;
+    left: 15px;
+  }
+  
+  .theme-toggle {
+    width: 50px;
+    height: 25px;
+  }
+  
+  .theme-toggle::before {
+    width: 20px;
+    height: 20px;
+  }
+  
+  [data-theme="light"] .theme-toggle::before {
+    left: 26px;
+  }
 }

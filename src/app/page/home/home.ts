@@ -29,6 +29,7 @@ export class Home implements OnInit {
   isLoading = false;
   sessionId: string | undefined = undefined;
   private shouldScroll = false;
+  isLightTheme = false;
 
   constructor(
     private router: Router,
@@ -37,8 +38,59 @@ export class Home implements OnInit {
   ) {}
 
   ngOnInit() {
-    document.documentElement.setAttribute('data-theme', 'main');
+    // Cargar preferencia de tema guardada
+    const savedTheme = localStorage.getItem('tyrrel-theme');
+    if (savedTheme === 'light') {
+      this.isLightTheme = true;
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'main');
+    }
     this.generateSessionId();
+  }
+  // Función para cambiar entre temas
+  toggleTheme() {
+    this.isLightTheme = !this.isLightTheme;
+    
+    if (this.isLightTheme) {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('tyrrel-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'main');
+      localStorage.setItem('tyrrel-theme', 'dark');
+    }
+    
+    // Efecto visual adicional al cambiar tema
+    this.playThemeTransitionEffect();
+  }
+
+  // Efecto especial de transición (opcional)
+  private playThemeTransitionEffect() {
+    const particles = document.createElement('div');
+    particles.style.position = 'fixed';
+    particles.style.top = '0';
+    particles.style.left = '0';
+    particles.style.width = '100%';
+    particles.style.height = '100%';
+    particles.style.pointerEvents = 'none';
+    particles.style.zIndex = '9999';
+    
+    // Crear partículas angelicales
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'angel-particle';
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.top = Math.random() * 100 + 'vh';
+      particle.style.animation = `floatParticle ${Math.random() * 2 + 1}s ease-in-out forwards`;
+      particles.appendChild(particle);
+    }
+    
+    document.body.appendChild(particles);
+    
+    // Remover después de la animación
+    setTimeout(() => {
+      document.body.removeChild(particles);
+    }, 2000);
   }
 
   setBodyChatClass(isActive: boolean) {
@@ -128,6 +180,7 @@ export class Home implements OnInit {
       console.error('Error en navegación:', error);
     });
   }
+  
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {

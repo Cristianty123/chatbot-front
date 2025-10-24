@@ -8,8 +8,8 @@
 <body>
 <div class="container">
   <header class="header">
-    <button class="nav-btn login-btn" (click)="navigateToLogin()">LOG IN</button>
-    <button class="nav-btn signup-btn" (click)="navigateToRegister()">SIGN UP</button>
+    <button class="nav-btn login-btn" (click)="navigateToLogin()">INICIA SESIÓN</button>
+    <button class="nav-btn signup-btn" (click)="navigateToRegister()">REGISTRATE</button>
   </header>
 
   <main class="main-content">
@@ -74,7 +74,7 @@
           #searchInput
           class="search-bar"
           type="text"
-          placeholder="SEARCH FOR A PRODUCT"
+          placeholder="BUSCA UN PRODUCTO"
           (keyup.enter)="startChat()">
       </div>
 
@@ -88,6 +88,15 @@
   <img class="bg-decoration bg-left-bottom" src="/logo-light.png" alt="Decoración fondo">
   <img class="bg-decoration bg-right-top" src="/logo-light.png" alt="Decoración fondo">
   <img class="bg-decoration bg-right-bottom" src="/logo-light.png" alt="Decoración fondo">
+
+  <!-- NUEVO: Interruptor de tema -->
+  <div class="theme-switch">
+    <div class="theme-toggle" (click)="toggleTheme()" 
+         [attr.title]="isLightTheme ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'">
+        <span class="theme-icon">{{isLightTheme ? '🌙' : '☀️'}}</span>
+    </div>
+  </div>
+
 </div>
 </body>
 </html>
